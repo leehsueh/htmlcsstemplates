@@ -1,4 +1,8 @@
-.rounded-borders (@radius: 5px) {
+@base-dark-color: #767676;
+@base-med-color: #DFDFDF;
+@base-light-color: #F1F1F1;
+
+.rounded-border (@radius: 0.5em) {
     border-radius: @radius;
     -moz-border-radius: @radius;
     -webkit-border-radius: @radius;
@@ -12,10 +16,10 @@
   -moz-box-shadow:    @val;
 }
 
-.box { @base: #f938ab;
-  color: saturate(@base, 5%);
-  border-color: lighten(@base, 30%);
-  div { .box-shadow(0, 0, 5px, 0.4) }
+.top-gradient(@from: #EFEFEF, @mid: #F8F8F8, @fallback: #FFF,) {
+    background-color: @fallback;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@from), to(@fallback), color-stop(.5,@mid));
+    background: -moz-linear-gradient(top, @mid 0%, #F1F1F1 50%, @fallback 100%);
 }
 
 .no-margin-padding {
@@ -28,23 +32,32 @@
     li {
         display: inline-block;
         list-style-type: none;
-        
+        font-size: 1.2em;
         a {
-
+            display: block;
+            .rounded-border(2px);
+            text-decoration: none;
+            &:link, &:visited { color: @base-med-color; background-color: darken(@base-med-color, 20%); }
+            padding: 0.3em;
+            &:hover { background-color: @base-dark-color; color: @base-light-color; }
         }
     }
 }
-
+.simple-border(@thickness: 1px, @color: @base-dark-color) {
+    border: solid @thickness @color;
+}
 .input-error {
 }
 .input-valid {
 }
-
-.form-style {
+fieldset { border: 0; }
+form {
     .input-error;
     .input-valid;
-    input[type=text] {
-
+    input, textarea {
+        .simple-border;
+        .top-gradient;
+        .box-shadow(1px, 1px, 2px, 0.4);
     }
     input[type=checkbox] {
     }
@@ -52,4 +65,26 @@
     }
     select {
     }
+}
+
+body {
+    background-color: @base-med-color;
+    font: 11px/16px "Lucida Grande", Verdana, sans-serif;
+    color: @base-dark-color;
+    text-shadow: white 0 1px 0;
+    overflow: -moz-scrollbars-vertical;
+    overflow: -webkit-scrollbars-vertical;
+    -webkit-text-size-adjust: none;
+}
+div#container {
+    margin: 50px auto;
+    width: 960px;
+    header, div#content, footer {
+        padding: 1em;
+        margin: 1em auto;
+        background-color: @base-light-color;
+        .rounded-border;
+        .box-shadow(0, 0, 5px, 0.3);
+    }
+    header { text-align: center; }
 }
